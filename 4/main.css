@@ -1,0 +1,75 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #f2f2f2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.task-wrap {
+    display: flex;
+    align-items: center;
+}
+
+.task {
+    width: 400px;
+    padding: 30px;
+    background: #fff;
+    margin-top: 40px;
+}
+
+.task p {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.task textarea,
+.task input {
+    padding: 10px;
+    border: 1px solid #000;
+    outline: none;
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.task button[type="submit"] {
+    width: 100%;
+    background: #1f7376;
+    color: #fff;
+    font-weight: 500;
+    border: none;
+    padding: 10px;
+    margin-top: 5px;
+    outline: none;
+}
+
+.encrypted {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.encrypted,
+.decrypted {
+    word-break: break-all;
+}
+
+.sym-table {
+    border-spacing: 0;
+    margin-left: 20px;
+}
+
+.sym-table td {
+    border: .8px solid #000;
+    padding: 5px;
+}
+
+.sym-table:nth-of-type(1) {
+    margin-bottom: 20px;
+}
