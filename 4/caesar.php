@@ -7,35 +7,38 @@ function caesarCipher($text, $keyword, $encrypt=true) {
     $start_time = microtime(true);
     $text = strtoupper($text); // переводим текст в верхний регистр
     $keyword = strtoupper($keyword); // переводим ключевое слово в верхний регистр
-    $shifts = []; // массив сдвигов
+    $shifts = []; // массив алфавита уже с ключевым словом
 
-    for ($i = 0; $i < strlen($keyword); $i++) {
-        $shifts[] = ord($keyword[$i]) - 65;
+    $keywordArr = str_split($keyword);
+    $keywordArr = array_unique($keywordArr); // массив символов ключа
+
+    $aplhArr = range('A', 'Z');
+
+    // заполнение массива в соответствии с алгоритмом
+    foreach ($keywordArr as $value) {
+        $shifts[] = $value;
+    }
+    foreach ($aplhArr as $value) {
+        if (!in_array($value, $shifts)) {
+            $shifts[] = $value;
+        }
     }
 
+    // создание ассоциативного массива с парами
+    $count_num = 0;
+    foreach ($aplhArr as $value) {
+      $newArr[$value] = $shifts[$count_num];
+      $count_num++;
+    }
+    $newArr[' '] = ' ';
+
     $result = '';
-    $j = 0; // счетчик сдвигов
+    if (!$encrypt) {
+      $newArr = array_flip($newArr);
+    }
 
     for ($i = 0; $i < strlen($text); $i++) {
-        $char = $text[$i];
-
-        if (ctype_alpha($char)) { // проверяем, является ли символ буквой
-            $shift = $shifts[$j];
-
-            if (!$encrypt) {
-                $shift = 26 - $shift; // если расшифровываем текст, инвертируем сдвиг
-            }
-
-            $ascii = ord($char);
-
-            if ($ascii >= 65 && $ascii <= 90) { // шифруем только буквы
-                $ascii = (($ascii + $shift - 65) % 26) + 65; // шифруем символ
-                $result .= chr($ascii);
-                $j = ($j + 1) % strlen($keyword); // переходим к следующему сдвигу
-            }
-        } else {
-            $result .= $char; // если символ не является буквой, оставляем его без изменений
-        }
+      $result .= $newArr[$text[$i]]; // шифрование или расшифрование сообщения
     }
 
     $end_time = microtime(true);
@@ -47,8 +50,9 @@ function caesarCipher($text, $keyword, $encrypt=true) {
 function characterFrequencyHistogram($string) {
     $char_count = array();
     $string_length = strlen($string);
+    $strSymCount = count(str_split($string));
   
-    // Подсчитываем количество вхождений каждого символа
+    // подсчитываем количество вхождений каждого символа
     for ($i = 0; $i < $string_length; $i++) {
       $char = $string[$i];
       if (!isset($char_count[$char])) {
@@ -57,15 +61,15 @@ function characterFrequencyHistogram($string) {
       $char_count[$char]++;
     }
   
-    // Создаем HTML таблицу
+    // создаем HTML таблицу
     $table_html = "<table class='sym-table'><tbody><tr>";
     foreach ($char_count as $char => $count) {
       $table_html .= "<td>" . htmlspecialchars($char) . "</td>";
     }
     $table_html .= "</tr><tr>";
     foreach ($char_count as $char => $count) {
-        $table_html .= "<td>" . bcdiv($count / 26, 1, 2) . "</td>";
-      }
+        $table_html .= "<td>" . bcdiv($count / $strSymCount, 1, 2) . "</td>";
+    }
     $table_html .= "</tr></tbody></table>";
   
     return $table_html;

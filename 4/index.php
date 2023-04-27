@@ -17,7 +17,7 @@
         <div class="task">
             <p>Шифр Цезаря</p>
             <form class="caesar-form">
-                <textarea name="text" placeholder="Текст">Study of cryptographic ciphers based on substitution of symbols</textarea>
+                <textarea name="text" placeholder="Текст">Study of</textarea>
                 <input name="keyword" type="text" value="Zmitrevich">
                 <button type="submit">Вперед</button>
             </form>
